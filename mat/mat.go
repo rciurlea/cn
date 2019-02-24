@@ -81,6 +81,26 @@ func (m *M) Augment(other *M) *M {
 	return aug
 }
 
+// Mul multiplies two matrices. If the first has a rows and b columns
+// the second must have b rows and c colums. Result has a rows and c cols.
+func (m *M) Mul(other *M) *M {
+	if m.cols != other.rows {
+		panic(fmt.Sprintf("can't multiply matrices of shapes %dx%d and %dx%d", m.rows, m.cols, other.rows, other.cols))
+	}
+	res := New(m.rows, other.cols)
+	var x float64
+	for i := 1; i <= res.rows; i++ {
+		for j := 1; j <= res.cols; j++ {
+			x = 0
+			for k := 1; k <= m.cols; k++ {
+				x += m.Get(i, k) * other.Get(k, j)
+			}
+			res.Set(i, j, x)
+		}
+	}
+	return res
+}
+
 // String makes matrices printable
 func (m *M) String() string {
 	b := &strings.Builder{}

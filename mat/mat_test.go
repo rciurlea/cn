@@ -60,3 +60,10 @@ func TestAugment(t *testing.T) {
 	n := New(2, 3, 11, 12, 13, 14, 15, 16)
 	assert.True(t, m.Augment(n).Equals(New(2, 5, 1, 2, 11, 12, 13, 3, 4, 14, 15, 16)))
 }
+
+func TestMul(t *testing.T) {
+	m := New(2, 3, 1, 2, 3, 2, 1, 0)
+	n := New(3, 4, 1, 0, 1, 2, 2, 3, 1, 0, 1, 1, 1, 2)
+	res := m.Mul(n)
+	assert.True(t, res.Equals(New(2, 4, 8, 9, 6, 8, 4, 3, 3, 4)))
+}
