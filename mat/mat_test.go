@@ -67,3 +67,23 @@ func TestMul(t *testing.T) {
 	res := m.Mul(n)
 	assert.True(t, res.Equals(New(2, 4, 8, 9, 6, 8, 4, 3, 3, 4)))
 }
+
+func TestSwapRows(t *testing.T) {
+	m := New(3, 4, 1, 0, 1, 2, 2, 3, 1, 0, 1, 1, 1, 2)
+	m.SwapRows(1, 3)
+	assert.True(t, m.Equals(New(3, 4, 1, 1, 1, 2, 2, 3, 1, 0, 1, 0, 1, 2)))
+}
+
+func TestSwapCols(t *testing.T) {
+	m := New(2, 3, 1, 2, 3, 2, 1, 0)
+	m.SwapCols(1, 3)
+	assert.True(t, m.Equals(New(2, 3, 3, 2, 1, 0, 1, 2)))
+}
+
+func TestClone(t *testing.T) {
+	m := New(2, 3, 1, 2, 3, 2, 1, 0)
+	n := m.Clone()
+	assert.True(t, m.Equals(n))
+	m.Set(1, 1, 20)
+	assert.False(t, m.Equals(n))
+}

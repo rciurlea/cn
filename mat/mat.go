@@ -101,6 +101,37 @@ func (m *M) Mul(other *M) *M {
 	return res
 }
 
+// SwapRows in place. Panics if row numbers are invalid.
+func (m *M) SwapRows(i, j int) {
+	if i <= 0 || i > m.rows || j <= 0 || j > m.rows {
+		panic(fmt.Sprintf("invalid row numbers: %d %d", i, j))
+	}
+	var aux float64
+	for c := 1; c <= m.cols; c++ {
+		aux = m.Get(i, c)
+		m.Set(i, c, m.Get(j, c))
+		m.Set(j, c, aux)
+	}
+}
+
+// SwapCols in place. Panics if column numbers are invalid.
+func (m *M) SwapCols(i, j int) {
+	if i <= 0 || i > m.cols || j <= 0 || j > m.cols {
+		panic(fmt.Sprintf("invalid column numbers: %d %d", i, j))
+	}
+	var aux float64
+	for r := 1; r <= m.rows; r++ {
+		aux = m.Get(r, i)
+		m.Set(r, i, m.Get(r, j))
+		m.Set(r, j, aux)
+	}
+}
+
+// Clone a matrix, returning an identical matrix which shares no memory.
+func (m *M) Clone() *M {
+	return New(m.rows, m.cols, m.data...)
+}
+
 // String makes matrices printable
 func (m *M) String() string {
 	b := &strings.Builder{}
