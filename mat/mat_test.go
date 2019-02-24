@@ -101,4 +101,6 @@ func TestMaxIndex(t *testing.T) {
 func TestTranspose(t *testing.T) {
 	m := New(2, 3, 1, 3, 5, 2, 4, 6)
 	assert.True(t, m.Transpose().Equals(New(3, 2, 1, 2, 3, 4, 5, 6)))
+	m = Rand(10, 20)
+	assert.True(t, m.Transpose().Transpose().Equals(m))
 }
