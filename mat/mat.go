@@ -2,6 +2,7 @@ package mat
 
 import (
 	"fmt"
+	"math/rand"
 	"strings"
 )
 
@@ -148,6 +149,17 @@ func (m *M) MaxIndex(r1, c1, r2, c2 int) (int, int) {
 	return r, c
 }
 
+// Transpose matrix returning a new matrix.
+func (m *M) Transpose() *M {
+	t := New(m.cols, m.rows)
+	for i := 1; i <= m.rows; i++ {
+		for j := 1; j <= m.cols; j++ {
+			t.Set(j, i, m.Get(i, j))
+		}
+	}
+	return t
+}
+
 // Clone a matrix, returning an identical matrix which shares no memory.
 func (m *M) Clone() *M {
 	n := New(m.rows, m.cols)
@@ -163,7 +175,7 @@ func (m *M) String() string {
 	fmt.Fprintln(b)
 	for i := 1; i <= m.rows; i++ {
 		for j := 1; j <= m.cols; j++ {
-			fmt.Fprintf(b, "%.6g\t", m.Get(i, j))
+			fmt.Fprintf(b, "%3g\t", m.Get(i, j))
 		}
 		fmt.Fprintln(b)
 	}
@@ -176,6 +188,15 @@ func Eye(n int) *M {
 	m := New(n, n)
 	for i := 1; i <= n; i++ {
 		m.Set(i, i, 1)
+	}
+	return m
+}
+
+// Rand retuns a new matrix with random elements between 0 and 1.
+func Rand(rows, cols int) *M {
+	m := New(rows, cols)
+	for i := 0; i < len(m.data); i++ {
+		m.data[i] = rand.Float64()
 	}
 	return m
 }

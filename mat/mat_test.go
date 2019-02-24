@@ -97,3 +97,8 @@ func TestMaxIndex(t *testing.T) {
 	assert.Equal(t, r, 3)
 	assert.Equal(t, c, 3)
 }
+
+func TestTranspose(t *testing.T) {
+	m := New(2, 3, 1, 3, 5, 2, 4, 6)
+	assert.True(t, m.Transpose().Equals(New(3, 2, 1, 2, 3, 4, 5, 6)))
+}
