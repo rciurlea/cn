@@ -87,3 +87,13 @@ func TestClone(t *testing.T) {
 	m.Set(1, 1, 20)
 	assert.False(t, m.Equals(n))
 }
+
+func TestMaxIndex(t *testing.T) {
+	m := New(4, 4, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16)
+	r, c := m.MaxIndex(2, 2, 4, 4)
+	assert.Equal(t, r, 4)
+	assert.Equal(t, c, 4)
+	r, c = m.MaxIndex(2, 2, 3, 3)
+	assert.Equal(t, r, 3)
+	assert.Equal(t, c, 3)
+}

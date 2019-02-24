@@ -127,9 +127,34 @@ func (m *M) SwapCols(i, j int) {
 	}
 }
 
+// MaxIndex returns the row and column of the largest element
+// in the matrix within the specified bounds.
+func (m *M) MaxIndex(r1, c1, r2, c2 int) (int, int) {
+	if r1 > r2 {
+		r1, r2 = r2, r1
+	}
+	if c1 > c2 {
+		c1, c2 = c2, c1
+	}
+	max := m.Get(r1, c1)
+	r, c := r1, c1
+	for i := r1; i <= r2; i++ {
+		for j := c1; j <= c2; j++ {
+			if m.Get(i, j) > max {
+				r, c = i, j
+			}
+		}
+	}
+	return r, c
+}
+
 // Clone a matrix, returning an identical matrix which shares no memory.
 func (m *M) Clone() *M {
-	return New(m.rows, m.cols, m.data...)
+	n := New(m.rows, m.cols)
+	for i := 0; i < len(m.data); i++ {
+		n.data[i] = m.data[i]
+	}
+	return n
 }
 
 // String makes matrices printable
