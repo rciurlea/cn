@@ -1,6 +1,7 @@
 package mat
 
 import (
+	"fmt"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
@@ -103,4 +104,21 @@ func TestTranspose(t *testing.T) {
 	assert.True(t, m.Transpose().Equals(New(3, 2, 1, 2, 3, 4, 5, 6)))
 	m = Rand(10, 20)
 	assert.True(t, m.Transpose().Transpose().Equals(m))
+}
+
+func TestAlmostEqual(t *testing.T) {
+	tcs := []struct {
+		a, b float64
+		eq   bool
+	}{
+		{1234.567, 1234.567, true},
+		{1234.567, 1234.568, false},
+		{10000000, 10000000, true},
+		{10000000, 10000001, false},
+	}
+	for _, tc := range tcs {
+		t.Run(fmt.Sprintf("%f and %f", tc.a, tc.b), func(t *testing.T) {
+			assert.Equal(t, tc.eq, almostEqual(tc.a, tc.b))
+		})
+	}
 }

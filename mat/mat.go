@@ -2,6 +2,7 @@ package mat
 
 import (
 	"fmt"
+	"math"
 	"math/rand"
 	"strings"
 )
@@ -59,7 +60,7 @@ func (m *M) Equals(other *M) bool {
 		panic(fmt.Sprintf("trying to compare matrices of different sizes: %dx%d, %dx%d", m.rows, m.cols, other.rows, other.cols))
 	}
 	for i := 0; i < len(m.data); i++ {
-		if m.data[i] != other.data[i] {
+		if !almostEqual(m.data[i], other.data[i]) {
 			return false
 		}
 	}
@@ -130,7 +131,7 @@ func (m *M) SwapCols(i, j int) {
 }
 
 // MaxIndex returns the row and column of the largest element
-// in the matrix within the specified bounds.
+// (absolute value) in the matrix within the specified bounds.
 func (m *M) MaxIndex(r1, c1, r2, c2 int) (int, int) {
 	if r1 > r2 {
 		r1, r2 = r2, r1
@@ -138,11 +139,11 @@ func (m *M) MaxIndex(r1, c1, r2, c2 int) (int, int) {
 	if c1 > c2 {
 		c1, c2 = c2, c1
 	}
-	max := m.Get(r1, c1)
+	max := math.Abs(m.Get(r1, c1))
 	r, c := r1, c1
 	for i := r1; i <= r2; i++ {
 		for j := c1; j <= c2; j++ {
-			if m.Get(i, j) > max {
+			if math.Abs(m.Get(i, j)) > max {
 				r, c = i, j
 			}
 		}
@@ -176,7 +177,7 @@ func (m *M) String() string {
 	fmt.Fprintln(b)
 	for i := 1; i <= m.rows; i++ {
 		for j := 1; j <= m.cols; j++ {
-			fmt.Fprintf(b, "%3g\t", m.Get(i, j))
+			fmt.Fprintf(b, "%.4g\t", m.Get(i, j))
 		}
 		fmt.Fprintln(b)
 	}
@@ -208,4 +209,13 @@ func Vec(xs ...float64) *M {
 		panic("can't create empty vector")
 	}
 	return New(len(xs), 1, xs...)
+}
+
+const epsilon = 0.0000001
+
+func almostEqual(a, b float64) bool {
+	if a == b {
+		return true
+	}
+	return math.Abs(a-b)/math.Abs(a) < epsilon
 }
