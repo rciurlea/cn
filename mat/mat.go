@@ -52,10 +52,11 @@ func (m *M) Get(row, col int) float64 {
 	return m.data[m.rows*(col-1)+row-1]
 }
 
-// Equals compares matrices for equality
+// Equals compares matrices for equality. Only makes sense for matrices
+// with identical dimensions, panics otherwise.
 func (m *M) Equals(other *M) bool {
 	if m.rows != other.rows || m.cols != other.cols {
-		return false
+		panic(fmt.Sprintf("trying to compare matrices of different sizes: %dx%d, %dx%d", m.rows, m.cols, other.rows, other.cols))
 	}
 	for i := 0; i < len(m.data); i++ {
 		if m.data[i] != other.data[i] {
