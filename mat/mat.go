@@ -84,6 +84,24 @@ func (m *M) Augment(other *M) *M {
 	return aug
 }
 
+// Slice the matrix, returning a submatrix from given coordinates.
+// The returned slice does not share memory with the original matrix.
+// Panics if invalid indices are provided.
+func (m *M) Slice(r1, c1, r2, c2 int) *M {
+	if r1 < 1 || c1 < 1 || r2 > m.rows || c2 > m.cols || r2 < r1 || c2 < c1 {
+		panic(fmt.Sprintf("invalid indices: %d %d %d %d", r1, c1, r2, c2))
+	}
+	a := New(r2-r1+1, c2-c1+1)
+	k := 0
+	for i := c1; i <= c2; i++ {
+		for j := r1; j <= r2; j++ {
+			a.data[k] = m.Get(j, i)
+			k++
+		}
+	}
+	return a
+}
+
 // Mul multiplies two matrices. If the first has a rows and b columns
 // the second must have b rows and c colums. Result has a rows and c cols.
 func (m *M) Mul(other *M) *M {
