@@ -1,7 +1,6 @@
 package mat
 
 import (
-	"fmt"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
@@ -9,7 +8,6 @@ import (
 
 func TestGaussJordan(t *testing.T) {
 	m := New(3, 3, 1, 2, 3, 2, 5, 3, 1, 0, 8)
-	fmt.Println(m)
 	n, err := GaussJordan(m)
 	assert.NoError(t, err)
 	assert.True(t, n.Equals(New(3, 3, -40, 16, 9, 13, -5, -3, 5, -2, -1)))
