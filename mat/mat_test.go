@@ -68,6 +68,25 @@ func TestSlice(t *testing.T) {
 	assert.True(t, n.Equals(New(3, 2, 7, 8, 11, 12, 15, 16)))
 }
 
+func TestEqual(t *testing.T) {
+	tcs := []struct {
+		A, B *M
+		eq   bool
+	}{
+		{
+			A:  New(2, 1, 11, 13),
+			B:  New(2, 1, 11, 13),
+			eq: true,
+		},
+	}
+	for _, tc := range tcs {
+		t.Run(fmt.Sprintf("%s and %s", tc.A, tc.B), func(t *testing.T) {
+			assert.True(t, tc.A.Equals(tc.B))
+			assert.True(t, tc.B.Equals(tc.A))
+		})
+	}
+}
+
 func TestMul(t *testing.T) {
 	m := New(2, 3, 1, 2, 3, 2, 1, 0)
 	n := New(3, 4, 1, 0, 1, 2, 2, 3, 1, 0, 1, 1, 1, 2)

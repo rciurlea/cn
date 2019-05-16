@@ -189,6 +189,14 @@ func (m *M) Clone() *M {
 	return n
 }
 
+// CopyTo copies a matrix's contents to another. Panics if they are not the same size.
+func (m *M) CopyTo(other *M) {
+	if m.rows != other.rows || m.cols != other.cols {
+		panic(fmt.Sprintf("trying to copy between matrices of different sizes: %dx%d, %dx%d", m.rows, m.cols, other.rows, other.cols))
+	}
+	copy(other.data, m.data)
+}
+
 // String makes matrices printable
 func (m *M) String() string {
 	b := &strings.Builder{}
