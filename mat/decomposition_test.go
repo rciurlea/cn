@@ -80,7 +80,7 @@ func TestGramSchmidt(t *testing.T) {
 				for k := 1; k <= B.rows; k++ {
 					dp += B.Get(k, i) * B.Get(k, j)
 				}
-				assert.Less(t, dp, 0.00000001)
+				assert.True(t, dp < 0.00000001)
 			}
 		}
 	}
@@ -90,7 +90,7 @@ func TestGramSchmidt(t *testing.T) {
 			if i == j {
 				assert.True(t, almostEqual(bsq.Get(i, j), 1))
 			} else {
-				assert.Less(t, bsq.Get(i, j), 0.00000001)
+				assert.True(t, bsq.Get(i, j) < 0.00000001)
 			}
 		}
 	}
